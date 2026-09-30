@@ -1,0 +1,18 @@
+{
+  "name": "monday-exam-planner",
+  "version": "1.0.0",
+  "description": "시험까지, 하루씩. Windows study planner and desktop widgets.",
+  "main": "electron/main.cjs",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build": "electron-packager . Monday --platform=win32 --arch=x64 --out=release --overwrite --icon=assets/monday.ico --ignore=\"^/(release|tests|scripts|[.]git|[.]test-data)\""
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^44.5.1"
+  }
+}
