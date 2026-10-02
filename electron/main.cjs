@@ -41,6 +41,7 @@ else {
       state=model.emptyState();save(state);
     }
     ipcMain.handle('state-get',()=>state);
+    ipcMain.handle('app-version',()=>app.getVersion());
     ipcMain.handle('state-action',(event,action)=>{save(model.reduce(state,action));return state;});
     ipcMain.handle('window-action',(event,action)=>{
       const win=BrowserWindow.fromWebContents(event.sender);

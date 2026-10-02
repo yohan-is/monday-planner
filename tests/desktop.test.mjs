@@ -11,7 +11,7 @@ test('desktop widgets dock to the work area and every window receives persisted 
   const folder=fs.mkdtempSync(path.join(os.tmpdir(),'monday-test-'));
   const handles=new Map(), windows=[];
   const app=new EventEmitter();
-  Object.assign(app,{getPath:()=>folder,setPath(){},requestSingleInstanceLock:()=>true,whenReady:()=>Promise.resolve(),quit(){}});
+  Object.assign(app,{getPath:()=>folder,getVersion:()=> '1.1.0',setPath(){},requestSingleInstanceLock:()=>true,whenReady:()=>Promise.resolve(),quit(){}});
   class Window extends EventEmitter {
     constructor(options){super();this.options=options;this.bounds={x:100,y:100,width:options.width,height:options.height};this.messages=[];this.webContents=new EventEmitter();Object.assign(this.webContents,{send:(channel,state)=>this.messages.push({channel,state}),setWindowOpenHandler(){}});windows.push(this);}
     loadFile(){} setPosition(x,y){Object.assign(this.bounds,{x,y});} setBounds(bounds){this.bounds=bounds;} getBounds(){return this.bounds;} isDestroyed(){return false;} show(){} focus(){}
@@ -25,6 +25,7 @@ test('desktop widgets dock to the work area and every window receives persisted 
   await new Promise(resolve=>setImmediate(resolve));
   try {
     assert.equal(windows.length,1);
+    assert.equal(handles.get('app-version')(),'1.1.0');
     handles.get('window-action')({sender:windows[0].webContents},'widgets');
     assert.equal(windows.length,3);
     const todo=windows[2],planner=windows[1];
